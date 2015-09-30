@@ -1,5 +1,8 @@
 (( scope: Window, Polymer: polymer.PolymerStatic ) => {
-
+  /**
+   * Core Api Connector custom element
+   * @class
+   */
   class CoreApiConnector extends HTMLElement {
     /**
      * Indicates if this connection should be initiated automaticly.
@@ -8,6 +11,7 @@
      * @member
      * @type {boolean}
      * @default true
+     * @public
      */
     public auto: boolean;
     /**
@@ -17,6 +21,7 @@
      * @member
      * @type {boolean}
      * @default true
+     * @public
      */
     public url: string;
     /**
@@ -69,7 +74,7 @@
      * @private
      * @function created
      */
-    created() {
+    created(): void {
       this._connector = null;
     }
     /**
@@ -80,12 +85,21 @@
      * @private
      * @function attached
      */
-    attached() {
+    attached(): void {
       if ( this.auto ) {
         console.log(2);
       }
-
-      console.log(this.auto, this.url);
+    }
+    /**
+     * Invoked after an element instance is removed from the document and
+     * this document has a browsing context.
+     *
+     * @member
+     * @private
+     * @function detached
+     */
+    detached(): void {
+      console.log("detached...");
     }
   }
 

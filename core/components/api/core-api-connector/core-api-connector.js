@@ -46,7 +46,9 @@ var __extends = (this && this.__extends) || function (d, b) {
             if (this.auto) {
                 console.log(2);
             }
-            console.log(this.auto, this.url);
+        };
+        CoreApiConnector.prototype.detached = function () {
+            console.log("detached...");
         };
         return CoreApiConnector;
     })(HTMLElement);
