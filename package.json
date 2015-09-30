@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/pknovo/OSS/issues"
   },
-  "homepage": "https://github.com/pknovo/OSS#readme"
+  "homepage": "https://github.com/pknovo/OSS#readme",
+  "devDependencies": {
+    "tsd": "^0.6.4",
+    "tslint": "^2.5.0",
+    "typescript": "^1.6.2",
+    "web-component-tester": "^3.3.22"
+  }
 }

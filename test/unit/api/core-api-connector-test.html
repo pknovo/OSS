@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="./../node_modules/web-component-tester/browser.js"></script>
+    <link rel="import" href="./../../../core/components/api/core-api-connector/core-api-connector.html">
+</head>
+<body>
+    <core-api-connector id="fixture" url="echo.websaocket.org" auto></core-api-connector>
+    <script>
+        var element = document.getElementById('fixture');
+
+        suite('<core-api-connector>', function() {
+
+          test('defines the "auto" property', function() {
+              assert.equal(element.auto, true);
+          });
+
+          test('defines the "url" property', function() {
+              assert.ok(element.url, "echo.websaocket.org");
+          });
+
+          test('connects automatically when the "auto" property is set', function() {
+              assert.equal(element.userName, true);
+          });
+
+        });
+    </script>
+</body>
+</html>

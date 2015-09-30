@@ -19,8 +19,8 @@
     "no-console": [true,
       "debug",
       "info",
-      "time",
-      "timeEnd",
+      "time2",
+      "timeEnd2",
       "trace"
     ],
     "no-construct": true,
