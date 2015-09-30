@@ -1,0 +1,19 @@
+{
+  "name": "oss",
+  "version": "1.0.0",
+  "description": "Oxygen Supply System (OSS) for automated oxygen therapy",
+  "main": "client/startup.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pknovo/OSS.git"
+  },
+  "author": "NOVO <dev@fromnovo.com>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/pknovo/OSS/issues"
+  },
+  "homepage": "https://github.com/pknovo/OSS#readme"
+}

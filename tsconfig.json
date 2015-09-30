@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "sourceMap": false,
+        "module": "system",
+        "noImplicitAny": true,
+        "noEmit": false,
+        "experimentalDecorators": true,
+        "jsx": "react"
+    },
+    "filesGlob": [
+        "./**/*.ts",
+        "!./build/jspm_packages/**/*.ts",
+        "!./node_modules/**/*.ts"
+    ],
+    "compileOnSave": true,
+    "exclude": [
+        "node_modules",
+        "build/jspm_packages",
+        "bower_components",
+        "test"
+    ],
+    "files": [
+        "./build/config/bootstrap.ts",
+        "./build/main.ts",
+        "./typings/es6-promise/es6-promise.d.ts",
+        "./typings/polymer/polymer.d.ts",
+        "./typings/rx/rx-lite.d.ts",
+        "./typings/rx/rx.d.ts",
+        "./typings/tsd.d.ts",
+        "./typings/webcomponents.js/webcomponents.js.d.ts"
+    ]
+}
