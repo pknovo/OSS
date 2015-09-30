@@ -25,7 +25,7 @@ var __extends = (this && this.__extends) || function (d, b) {
                     },
                     url: {
                         type: String,
-                        value: "lol what the fuck"
+                        value: "echo.websocket.org"
                     }
                 };
             },
@@ -34,14 +34,19 @@ var __extends = (this && this.__extends) || function (d, b) {
         });
         Object.defineProperty(CoreApiConnector.prototype, "connected", {
             get: function () {
-                return this.connector !== null && this.connector.readyState !== 3;
+                return this._connector !== null && this._connector.readyState !== 3;
             },
             enumerable: true,
             configurable: true
         });
         CoreApiConnector.prototype.created = function () {
-            this.connector = null;
-            console.log(CoreApiConnector);
+            this._connector = null;
+        };
+        CoreApiConnector.prototype.attached = function () {
+            if (this.auto) {
+                console.log(2);
+            }
+            console.log(this.auto, this.url);
         };
         return CoreApiConnector;
     })(HTMLElement);
