@@ -23,6 +23,7 @@
         "test"
     ],
     "files": [
+        "./core/components/api/core-api-connector/_core-api-connector.ts",
         "./core/components/api/core-api-connector/core-api-connector.ts",
         "./core/components/api/core-api-emitter/core-api-emitter.ts",
         "./core/components/api/core-api-receiver/core-api-receiver.ts",
