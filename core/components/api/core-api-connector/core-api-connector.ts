@@ -1,6 +1,6 @@
 (( scope: Window, Polymer: polymer.PolymerStatic ) => {
 
-  const URL_PREFIX = "ws://";
+  const URL_PREFIX: string = "ws://";
 
   /**
    * Core Api Connector custom element
@@ -90,10 +90,7 @@
      */
     attached(): void {
       if ( this.auto ) {
-        this._connector = new WebSocket(`${URL_PREFIX}${this.url}`);
-        this._connector.onopen = () => {
-          console.log(this.connected);
-        };
+        this.open();
       }
     }
     /**
@@ -107,8 +104,27 @@
     detached(): void {
       console.log("detached...");
     }
+
+    connect(): Promise<string> {
+      return new Promise<string>(( resolve, reject ) => {
+        if ( this.connected ) {
+          resolve( "oups" );
+        } else {
+          this.open().then(() => { resolve( "connected" ); });
+        }
+      });
+    }
+
+    open(): Promise<string>  {
+      return new Promise<string>(( resolve, reject ) => {
+        this._connector = new WebSocket( `${URL_PREFIX}${this.url}` );
+        this._connector.onopen = () => {
+          resolve( "opened" );
+        };
+      });
+    }
   }
 
-  Polymer(CoreApiConnector);
+  Polymer( CoreApiConnector );
 
 })( window, Polymer );

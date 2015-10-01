@@ -44,16 +44,32 @@ var __extends = (this && this.__extends) || function (d, b) {
             this._connector = null;
         };
         CoreApiConnector.prototype.attached = function () {
-            var _this = this;
             if (this.auto) {
-                this._connector = new WebSocket("" + URL_PREFIX + this.url);
-                this._connector.onopen = function () {
-                    console.log(_this.connected);
-                };
+                this.open();
             }
         };
         CoreApiConnector.prototype.detached = function () {
             console.log("detached...");
+        };
+        CoreApiConnector.prototype.connect = function () {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                if (_this.connected) {
+                    resolve("oups");
+                }
+                else {
+                    _this.open().then(function () { resolve("connected"); });
+                }
+            });
+        };
+        CoreApiConnector.prototype.open = function () {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this._connector = new WebSocket("" + URL_PREFIX + _this.url);
+                _this._connector.onopen = function () {
+                    resolve("opened");
+                };
+            });
         };
         return CoreApiConnector;
     })(HTMLElement);
