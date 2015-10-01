@@ -44,10 +44,11 @@ var __extends = (this && this.__extends) || function (d, b) {
             this._connector = null;
         };
         CoreApiConnector.prototype.attached = function () {
+            var _this = this;
             if (this.auto) {
                 this._connector = new WebSocket("" + URL_PREFIX + this.url);
                 this._connector.onopen = function () {
-                    console.log("open....");
+                    console.log(_this.connected);
                 };
             }
         };

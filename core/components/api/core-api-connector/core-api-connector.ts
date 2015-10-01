@@ -92,7 +92,7 @@
       if ( this.auto ) {
         this._connector = new WebSocket(`${URL_PREFIX}${this.url}`);
         this._connector.onopen = () => {
-          console.log("open....");
+          console.log(this.connected);
         };
       }
     }
