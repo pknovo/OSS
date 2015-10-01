@@ -4,6 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 (function (scope, Polymer) {
+    var URL_PREFIX = "ws://";
     var CoreApiConnector = (function (_super) {
         __extends(CoreApiConnector, _super);
         function CoreApiConnector() {
@@ -44,7 +45,10 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         CoreApiConnector.prototype.attached = function () {
             if (this.auto) {
-                console.log(2);
+                this._connector = new WebSocket("" + URL_PREFIX + this.url);
+                this._connector.onopen = function () {
+                    console.log("open....");
+                };
             }
         };
         CoreApiConnector.prototype.detached = function () {

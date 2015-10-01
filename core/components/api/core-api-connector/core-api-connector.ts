@@ -1,4 +1,7 @@
 (( scope: Window, Polymer: polymer.PolymerStatic ) => {
+
+  const URL_PREFIX = "ws://";
+
   /**
    * Core Api Connector custom element
    * @class
@@ -87,7 +90,10 @@
      */
     attached(): void {
       if ( this.auto ) {
-        console.log(2);
+        this._connector = new WebSocket(`${URL_PREFIX}${this.url}`);
+        this._connector.onopen = () => {
+          console.log("open....");
+        };
       }
     }
     /**

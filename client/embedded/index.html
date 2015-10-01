@@ -5,11 +5,12 @@
     <title>OSS - Embedded SPA</title>
     <meta name="description" content="Automated oxygen delivery SPA">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="import" href="./../../core/components/rx/rx.html" async>
     <link rel="import" href="./../../core/components/api/core-api-connector/core-api-connector.html" async>
   </head>
   <body>
     <main>
-      <core-api-connector url="pk.com" auto></core-api-connector>
+      <core-api-connector url="echo.websocket.org" auto></core-api-connector>
     </main>
     <script>
       window.addEventListener('WebComponentsReady', function(e) {

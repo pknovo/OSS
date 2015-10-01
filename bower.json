@@ -16,6 +16,8 @@
     "tests"
   ],
   "dependencies": {
-    "polymer": "~1.1.4"
+    "polymer": "~1.1.4",
+    "rxjs": "~4.0.0",
+    "rxjs-dom": "rx-dom#~6.0.0"
   }
 }
