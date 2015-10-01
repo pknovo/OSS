@@ -1,14 +1,7 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 (function (scope, Polymer) {
     var URL_PREFIX = "ws://";
-    var CoreApiConnector = (function (_super) {
-        __extends(CoreApiConnector, _super);
+    var CoreApiConnector = (function () {
         function CoreApiConnector() {
-            _super.apply(this, arguments);
         }
         Object.defineProperty(CoreApiConnector.prototype, "is", {
             get: function () {
@@ -35,7 +28,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         });
         Object.defineProperty(CoreApiConnector.prototype, "connected", {
             get: function () {
-                return this._connector !== null && this._connector.readyState !== 3;
+                return this._connector !== null && this._connector.readyState !== WebSocket.OPEN;
             },
             enumerable: true,
             configurable: true
@@ -62,8 +55,34 @@ var __extends = (this && this.__extends) || function (d, b) {
                 }
             });
         };
+        CoreApiConnector.prototype._createConnector = function () {
+            return new WebSocket("" + URL_PREFIX + this.url);
+        };
         CoreApiConnector.prototype.open = function () {
             var _this = this;
+            var ws = this._createConnector();
+            var socketOpen$ = Rx.Observer.create(function (timestamp) {
+                console.log("Connection open at " + timestamp);
+                ws.send("Hello");
+            });
+            var socketResponse$ = Rx.Observer.create(function (payload) {
+                console.log("Sending payload... " + payload);
+                ws.send(payload);
+            });
+            var socket$ = Rx.Observable.create(function (observer) {
+                ws.onopen = function () { socketOpen$.onNext(Date.now()); };
+                ws.onmessage = observer.onNext.bind(observer);
+                ws.onerror = observer.onError.bind(observer);
+                ws.onclose = observer.onCompleted.bind(observer);
+            }).take(2);
+            socket$.subscribe(function (event) {
+                _this.$.span.textContent = event.data;
+                setTimeout(function () { socketResponse$.onNext("Message - " + Date.now()); }, 5000);
+            }, function (event) {
+                console.log("Error occured... " + event.reason);
+            }, function () {
+                console.log("Completed....");
+            });
             return new Promise(function (resolve, reject) {
                 _this._connector = new WebSocket("" + URL_PREFIX + _this.url);
                 _this._connector.onopen = function () {
@@ -71,7 +90,16 @@ var __extends = (this && this.__extends) || function (d, b) {
                 };
             });
         };
+        CoreApiConnector.prototype.getConnector = function () {
+            var _this = this;
+            return Rx.Observable.create(function (observer) {
+                _this._connector = new WebSocket("" + URL_PREFIX + _this.url);
+                _this._connector.onopen = function () {
+                    observer.onNext(_this._connector.readyState);
+                };
+            });
+        };
         return CoreApiConnector;
-    })(HTMLElement);
+    })();
     Polymer(CoreApiConnector);
 })(window, Polymer);

@@ -6,7 +6,10 @@
    * Core Api Connector custom element
    * @class
    */
-  class CoreApiConnector extends HTMLElement {
+  class CoreApiConnector implements polymer.Base {
+    $: any;
+    public connection$: Rx.Observable<boolean>;
+    public open$: Rx.Observable<boolean>;
     /**
      * Indicates if this connection should be initiated automaticly.
      *
@@ -67,7 +70,7 @@
      * @return {boolean} [description]
      */
     get connected(): boolean {
-      return this._connector !== null && this._connector.readyState !== 3;
+      return this._connector !== null && this._connector.readyState !== WebSocket.OPEN;
     }
     /**
      * Invoked after an element instance is created and its definition
@@ -115,11 +118,52 @@
       });
     }
 
+    _createConnector(): WebSocket {
+      return new WebSocket( `${URL_PREFIX}${this.url}` );
+    }
+
     open(): Promise<string>  {
+      let ws: WebSocket = this._createConnector();
+
+      let socketOpen$ = Rx.Observer.create<any>((timestamp: number) => {
+        console.log(`Connection open at ${timestamp}`);
+        ws.send("Hello");
+      });
+
+      let socketResponse$ = Rx.Observer.create<string>((payload: string) => {
+        console.log(`Sending payload... ${payload}`);
+        ws.send(payload);
+      });
+
+      let socket$: Rx.Observable<any> = Rx.Observable.create<any>((observer) => {
+        ws.onopen = () => {  socketOpen$.onNext( Date.now() ); };
+        ws.onmessage = observer.onNext.bind(observer);
+        ws.onerror = observer.onError.bind(observer);
+        ws.onclose = observer.onCompleted.bind(observer);
+      }).take(2);
+
+      socket$.subscribe((event: MessageEvent) => {
+        this.$.span.textContent = event.data;
+        setTimeout( () => { socketResponse$.onNext(`Message - ${ Date.now() }`); }, 5000 );
+      }, (event: CloseEvent) => {
+          console.log(`Error occured... ${event.reason}`);
+      }, () => {
+          console.log(`Completed....`);
+      });
+
       return new Promise<string>(( resolve, reject ) => {
         this._connector = new WebSocket( `${URL_PREFIX}${this.url}` );
         this._connector.onopen = () => {
           resolve( "opened" );
+        };
+      });
+    }
+
+    getConnector(): Rx.Observable<number> {
+      return Rx.Observable.create<number>( observer => {
+        this._connector = new WebSocket( `${URL_PREFIX}${this.url}` );
+        this._connector.onopen = () => {
+           observer.onNext(this._connector.readyState);
         };
       });
     }
