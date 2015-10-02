@@ -23,10 +23,8 @@
         "test"
     ],
     "files": [
-        "./core/components/api/core-api-connector/_core-api-connector.ts",
         "./core/components/api/core-api-connector/core-api-connector.ts",
-        "./core/components/api/core-api-emitter/core-api-emitter.ts",
-        "./core/components/api/core-api-receiver/core-api-receiver.ts",
+        "./core/definitions.d.ts",
         "./typings/es6-promise/es6-promise.d.ts",
         "./typings/polymer/polymer.d.ts",
         "./typings/rx/rx-lite.d.ts",
